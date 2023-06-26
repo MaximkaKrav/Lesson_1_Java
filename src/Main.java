@@ -28,15 +28,12 @@ public class Main {
                     System.out.println("Введите месяц");
                     String inputMonth = scanner.next();
                     stepTracker.printStatisticSteps(inputMonth);
-//                    System.out.println(stepTracker.monthSteps);
                     break;
                 }
                 case 3: {
                     break;
                 }
-                case 4: {
-                    break;
-                }
+
             }
 
         }

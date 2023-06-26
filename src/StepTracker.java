@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class StepTracker {
+    Converter converter = new Converter();
 
     HashMap<String, ArrayList<Integer>> monthSteps = new HashMap<>();//Месяцы для хранения дней с шагами
     ArrayList<Integer> daysForSteps;//Дни для хранения шагов
@@ -51,25 +52,55 @@ public class StepTracker {
 
     public void printStatisticSteps(String month){
         int sum = 0;
-        int max = 0;
-        if (monthSteps.containsKey(month)){
-
-//            int stepsToDay = ;
-            for (int i = 0; i < daysForSteps.size(); i++) {
-                sum += monthSteps.get(month).get(i);
-                System.out.print((i+1) + " день:" + monthSteps.get(month).get(i) + " ");
+        if (monthSteps.containsKey(month)) {
+            for (int i = 0; i <= daysForSteps.size(); i++) {
+                if (i % 7 == 0) {
+                    System.out.println('\n');
+                }
+                System.out.print((i + 1) + " день:" + monthSteps.get(month).get(i) + ";");
             }
-            System.out.println("\nОбщее число шагов в месяц " + month + " :" + sum);
         }
-        System.out.println("Среднее пройденное за месяц " + sum/ monthSteps.get(month).size());
-
-        for (int i = 0; i < daysForSteps.size(); i++) {
+        System.out.println("\nОбщее число шагов в месяц " + month + " :" + getSumStepsOnMonth(month));
+        System.out.println("\nMax = "+ getMaxStepsOnMonth(month));
+        getAvgStepsOnMonth(month);
+        getMaxStepsOnMonth(month);
+        getLengthWithSteps(month);
+        getPlantedCallories(month);
+    }
+    int getSumStepsOnMonth(String month){
+        int sum = 0;
+        if (monthSteps.containsKey(month)){
+            for (int i = 0; i <= daysForSteps.size(); i++) {
+                sum += monthSteps.get(month).get(i);
+            }
+        }
+        return sum;
+    }
+    int getMaxStepsOnMonth(String month){
+        int max = 0;
+        for (int i = 0; i <= daysForSteps.size(); i++) {
 
             if (max < monthSteps.get(month).get(i)) max = monthSteps.get(month).get(i);
         }
-        System.out.println("Max = " + max);
+        return max;
+    }
 
+    void getAvgStepsOnMonth(String month){
+        int sum = 0;
+        for (int i = 0; i < monthSteps.get(month).size(); i++) {
+            sum += monthSteps.get(month).get(i);
+        }
+        double avg = sum/monthSteps.get(month).size();
+        System.out.println("Среднее количество шагов в месяце "+ avg);
+    }
 
+    void getLengthWithSteps(String month){
+        int max = getMaxStepsOnMonth(month);
+        System.out.println("Пройденная дистанция в километрах " + converter.getLength(max));
+    }
+    void getPlantedCallories(String month){
+        int sum = getSumStepsOnMonth(month);
+        System.out.println(converter.getPlantedCallories(sum));
     }
 
 }
